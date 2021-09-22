@@ -35,10 +35,10 @@ DATA_DIR = './stl10'
 DATA_URL = 'http://ai.stanford.edu/~acoates/stl10/stl10_binary.tar.gz'
 
 # path to the binary train file with image data
-DATA_PATH = './data/stl10_binary/train_X.bin'
+DATA_PATH = './stl10/stl10_binary/train_X.bin'
 
 # path to the binary train file with labels
-LABEL_PATH = './data/stl10_binary/train_y.bin'
+LABEL_PATH = './stl10/stl10_binary/train_y.bin'
 
 def read_labels(path_to_labels):
     """
