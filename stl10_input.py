@@ -5,6 +5,9 @@ import os, sys, tarfile, errno
 import numpy as np
 import matplotlib.pyplot as plt
     
+import pickle
+from pathlib import Path
+
 if sys.version_info >= (3, 0, 0):
     import urllib.request as urllib # ugly but works
 else:
@@ -26,7 +29,7 @@ DEPTH = 3
 SIZE = HEIGHT * WIDTH * DEPTH
 
 # path to the directory with the data
-DATA_DIR = './data'
+DATA_DIR = './stl10'
 
 # url of the binary data
 DATA_URL = 'http://ai.stanford.edu/~acoates/stl10/stl10_binary.tar.gz'
@@ -140,22 +143,32 @@ def save_images(images, labels):
         print(filename)
         save_image(image, filename)
         i = i+1
-    
+
+def save_images_as_pkl(images, labels):
+    if not os.path.isdir('./data'):
+        os.mkdir('./data')
+
+    with open('./data/stl10_train.pkl','wb') as f:
+        pickle.dump({'data':images, 'labels':labels}, f)
+
 if __name__ == "__main__":
     # download data if needed
     download_and_extract()
 
     # test to check if the image is read correctly
-    with open(DATA_PATH) as f:
-        image = read_single_image(f)
-        plot_image(image)
+    # with open(DATA_PATH) as f:
+    #     image = read_single_image(f)
+    #     plot_image(image)
 
     # test to check if the whole dataset is read correctly
     images = read_all_images(DATA_PATH)
-    print(images.shape)
+    # print(images.shape)
 
     labels = read_labels(LABEL_PATH)
-    print(labels.shape)
+    # print(labels.shape)
 
     # save images to disk
     save_images(images, labels)
+
+    #save the whole dataset as .pkl
+    save_images_as_pkl(images, labels)
